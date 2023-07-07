@@ -1,5 +1,5 @@
 // import { compose, createStore, applyMiddleware } from 'redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 // import { persistStore, persistReducer } from 'redux-persist';
 // import storage from 'redux-persist/lib/storage';
@@ -37,7 +37,11 @@ const middleWares = [process.env.NODE_ENV === 'development' && logger].filter(
 //Store declare in redux-toolkit
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: middleWares,
+  middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(middleWares)
+  ,
 })
 
 // export const persistor = persistStore(store);
